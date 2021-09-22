@@ -49,10 +49,9 @@ pub fn assemble_int_immediate(
     reg: &str,
     mut out: impl Write,
 ) -> io::Result<()> {
-    write!(
+    writeln!(
         &mut out,
-        r"	# li {}, {}
-",
+        r"	# li {}, {}",
         reg, value
     )?;
     assemble_immediate(value.into_u32(), reg, &mut out)?;

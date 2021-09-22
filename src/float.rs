@@ -26,25 +26,22 @@ pub fn assemble_float_immediate(
 ) -> io::Result<()> {
     if value == 0.0 {
         // 0.0 is represented by all zeroes, so we can pull directly from the zero register
-        write!(
+        writeln!(
             &mut out,
             r"	# li {reg}, 0
-	fmv.s.x {reg}, zero
-",
+	fmv.s.x {reg}, zero",
             reg = reg
         )?;
     } else {
-        write!(
+        writeln!(
             &mut out,
-            r"	# li {}, {} (uses {})
-",
+            r"	# li {}, {} (uses {})",
             reg, value, temp_reg
         )?;
         assemble_immediate(u32::from_ne_bytes(value.to_ne_bytes()), temp_reg, &mut out)?;
         write!(
             &mut out,
-            r"	fmv.s.x {}, {}
-",
+            r"	fmv.s.x {}, {}",
             reg, temp_reg
         )?;
     }

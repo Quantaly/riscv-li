@@ -5,7 +5,7 @@ use std::str::FromStr;
 
 #[paw::main]
 fn main(mut args: paw::Args) -> io::Result<()> {
-    let executable_name = args.next().unwrap_or(String::from("riscv-li"));
+    let executable_name = args.next().unwrap_or_else(|| String::from("riscv-li"));
     if let (Some(register), Some(value)) = (args.next(), args.next()) {
         let register = register.as_str();
         match register {
@@ -30,7 +30,7 @@ fn main(mut args: paw::Args) -> io::Result<()> {
                 }
             }
             _ if FLOAT_REGISTERS.binary_search(&register).is_ok() => {
-                let temp_register = args.next().unwrap_or(String::from("t6"));
+                let temp_register = args.next().unwrap_or_else(|| String::from("t6"));
                 let temp_register = temp_register.as_str();
                 match temp_register {
                     "x0" | "zero" => {
@@ -75,11 +75,11 @@ fn main(mut args: paw::Args) -> io::Result<()> {
 }
 
 fn print_help(executable_name: &str, mut out: impl Write) -> io::Result<()> {
-    write!(
+    writeln!(
         out,
-        "usage: {} <register> <value> [temp_register]\n",
+        "usage: {} <register> <value> [temp_register]",
         executable_name
     )?;
-    write!(out, "temp_register defaults to t6\n")?;
+    writeln!(out, "temp_register defaults to t6, is only used for loading floats")?;
     Ok(())
 }

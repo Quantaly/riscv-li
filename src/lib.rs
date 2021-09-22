@@ -19,66 +19,58 @@ fn assemble_immediate(value: u32, reg: &str, out: &mut impl Write) -> io::Result
         let upper_imm = (upper_bits + 1) & TWENTY_BITS;
         let lower_imm = ((lower_bits ^ ELEVEN_BITS) + 1) & ELEVEN_BITS;
         match (upper_imm > 0, lower_imm > 0) {
-            (true, true) => write!(
+            (true, true) => writeln!(
                 out,
                 r"	lui {reg}, {upper_imm}
-	addi {reg}, {reg}, -{lower_imm}
-",
+	addi {reg}, {reg}, -{lower_imm}",
                 reg = reg,
                 upper_imm = upper_imm,
                 lower_imm = lower_imm,
             ),
-            (true, false) => write!(
+            (true, false) => writeln!(
                 out,
                 r"	lui {reg}, {upper_imm}
-	addi {reg}, {reg}, -2048
-",
+	addi {reg}, {reg}, -2048",
                 reg = reg,
                 upper_imm = upper_imm,
             ),
-            (false, true) => write!(
+            (false, true) => writeln!(
                 out,
-                r"	addi {reg}, zero, -{lower_imm}
-",
+                r"	addi {reg}, zero, -{lower_imm}",
                 reg = reg,
                 lower_imm = lower_imm,
             ),
-            (false, false) => write!(
+            (false, false) => writeln!(
                 out,
-                r"	addi {reg}, zero, -2048
-",
+                r"	addi {reg}, zero, -2048",
                 reg = reg,
             ),
         }
     } else {
         match (upper_bits > 0, lower_bits > 0) {
-            (true, true) => write!(
+            (true, true) => writeln!(
                 out,
                 r"	lui {reg}, {upper_bits}
-	addi {reg}, {reg}, {lower_bits}
-",
+	addi {reg}, {reg}, {lower_bits}",
                 reg = reg,
                 upper_bits = upper_bits,
                 lower_bits = lower_bits,
             ),
-            (true, false) => write!(
+            (true, false) => writeln!(
                 out,
-                r"	lui {reg}, {upper_bits}
-",
+                r"	lui {reg}, {upper_bits}",
                 reg = reg,
                 upper_bits = upper_bits,
             ),
-            (false, true) => write!(
+            (false, true) => writeln!(
                 out,
-                r"	addi {reg}, zero, {lower_bits}
-",
+                r"	addi {reg}, zero, {lower_bits}",
                 reg = reg,
                 lower_bits = lower_bits,
             ),
-            (false, false) => write!(
+            (false, false) => writeln!(
                 out,
-                r"	add {reg}, zero, zero
-",
+                r"	add {reg}, zero, zero",
                 reg = reg,
             ),
         }
