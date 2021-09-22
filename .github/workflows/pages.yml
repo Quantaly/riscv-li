@@ -1,5 +1,6 @@
 # https://docs.github.com/en/actions/learn-github-actions/introduction-to-github-actions
 # https://github.com/actions/starter-workflows/blob/main/ci/rust.yml
+# https://github.com/actions/starter-workflows/blob/main/ci/node.js.yml
 # https://dev.to/dyarleniber/setting-up-a-ci-cd-workflow-on-github-actions-for-a-react-app-with-github-pages-and-codecov-4hnp
 
 name: GitHub Pages dump
@@ -15,6 +16,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-verison: 14.x
 
       - name: Install Wasm tools
         run: ./scripts/install-wasm-tools.sh
