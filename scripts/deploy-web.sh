@@ -10,8 +10,7 @@ cp -r .git $TEMPDIR
 cd $TEMPDIR
 git checkout -B gh-pages
 cp -LR $OLDPWD/web/public/* .
-ls -lR
+rm pkg/.gitignore pkg/package.json pkg/*.ts
 git add .
-git status
 git commit -m "Dump"
 git push -fu origin gh-pages
