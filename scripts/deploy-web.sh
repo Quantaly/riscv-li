@@ -9,13 +9,9 @@ TEMPDIR=$(mktemp -d)
 cp -r .git $TEMPDIR
 cd $TEMPDIR
 git checkout -B gh-pages
-cp -Lr $OLDPWD/web/public/* .
-ls -R
-ls -R $OLDPWD/web
-if [ ! -d pkg ]; then
-    echo "pkg doesn't exist, fuck this shit"
-    exit 1
-fi
+cp -LR $OLDPWD/web/public/* .
+ls -lR
 git add .
+git status
 git commit -m "Dump"
 git push -fu origin gh-pages
