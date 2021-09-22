@@ -8,7 +8,7 @@ git remote set-url origin https://${github_token}@github.com/${repository}
 TEMPDIR=$(mktemp -d)
 cp -LR web/public $TEMPDIR
 git checkout -b gh-pages
-git rm -f *
+git rm -rf *
 cp -R $TEMPDIR/public/* .
 git add .
 git commit -m "Dump"
