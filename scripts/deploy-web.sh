@@ -12,4 +12,4 @@ git checkout -B gh-pages
 cp -Lr $OLDPWD/web/public/* .
 git add .
 git commit -m "Dump"
-git push -u origin gh-pages
+git push -fu origin gh-pages
