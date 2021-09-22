@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RISC-V Load Immediate</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="main.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>RISC-V Load Immediate</h1>
+    </header>
+    <nav>
+        <a href="//github.com/Quantaly/riscv-li/">Source code</a>
+    </nav>
+    <main>
+        <div class="app">
+            <div class="controls">
+                <p>
+                    <label>Register: <select id="reg-select">
+                            <optgroup label="Integer">
+                                <option disabled value="zero">zero (x0)</option>
+                                <option value="ra">ra (x1)</option>
+                                <option value="sp">sp (x2)</option>
+                                <option value="gp">gp (x3)</option>
+                                <option value="tp">tp (x4)</option>
+                                <option value="t0">t0 (x5)</option>
+                                <option value="t1">t1 (x6)</option>
+                                <option value="t2">t2 (x7)</option>
+                                <option value="fp">fp (x8)</option>
+                                <option value="s0">s0 (x8)</option>
+                                <option value="s1">s1 (x9)</option>
+                                <option selected value="a0">a0 (x10)</option>
+                                <option value="a1">a1 (x11)</option>
+                                <option value="a2">a2 (x12)</option>
+                                <option value="a3">a3 (x13)</option>
+                                <option value="a4">a4 (x14)</option>
+                                <option value="a5">a5 (x15)</option>
+                                <option value="a6">a6 (x16)</option>
+                                <option value="a7">a7 (x17)</option>
+                                <option value="s2">s2 (x18)</option>
+                                <option value="s3">s3 (x19)</option>
+                                <option value="s4">s4 (x20)</option>
+                                <option value="s5">s5 (x21)</option>
+                                <option value="s6">s6 (x22)</option>
+                                <option value="s7">s7 (x23)</option>
+                                <option value="s8">s8 (x24)</option>
+                                <option value="s9">s9 (x25)</option>
+                                <option value="s10">s10 (x26)</option>
+                                <option value="s11">s11 (x27)</option>
+                                <option value="t3">t3 (x28)</option>
+                                <option value="t4">t4 (x29)</option>
+                                <option value="t5">t5 (x30)</option>
+                                <option value="t6">t6 (x31)</option>
+                            </optgroup>
+                            <optgroup label="Floating-point">
+                                <option value="ft0">ft0 (f0)</option>
+                                <option value="ft1">ft1 (f1)</option>
+                                <option value="ft2">ft2 (f2)</option>
+                                <option value="ft3">ft3 (f3)</option>
+                                <option value="ft4">ft4 (f4)</option>
+                                <option value="ft5">ft5 (f5)</option>
+                                <option value="ft6">ft6 (f6)</option>
+                                <option value="ft7">ft7 (f7)</option>
+                                <option value="fs0">fs0 (f8)</option>
+                                <option value="fs1">fs1 (f9)</option>
+                                <option value="fa0">fa0 (f10)</option>
+                                <option value="fa1">fa1 (f11)</option>
+                                <option value="fa2">fa2 (f12)</option>
+                                <option value="fa3">fa3 (f13)</option>
+                                <option value="fa4">fa4 (f14)</option>
+                                <option value="fa5">fa5 (f15)</option>
+                                <option value="fa6">fa6 (f16)</option>
+                                <option value="fa7">fa7 (f17)</option>
+                                <option value="fs2">fs2 (f18)</option>
+                                <option value="fs3">fs3 (f19)</option>
+                                <option value="fs4">fs4 (f20)</option>
+                                <option value="fs5">fs5 (f21)</option>
+                                <option value="fs6">fs6 (f22)</option>
+                                <option value="fs7">fs7 (f23)</option>
+                                <option value="fs8">fs8 (f24)</option>
+                                <option value="fs9">fs9 (f25)</option>
+                                <option value="fs10">fs10 (f26)</option>
+                                <option value="fs11">fs11 (f27)</option>
+                                <option value="ft8">ft8 (f28)</option>
+                                <option value="ft9">ft9 (f29)</option>
+                                <option value="ft10">ft10 (f30)</option>
+                                <option value="ft11">ft11 (f31)</option>
+                            </optgroup>
+                        </select></label>
+                </p>
+                <p>
+                    <label>Value: <input id="value-input" type="number" value="0"></label>
+                </p>
+                <p>
+                    <label>Temp register (for loading floats): <select id="temp-reg-select" disabled>
+                            <optgroup label="Integer">
+                                <option disabled value="zero">zero (x0)</option>
+                                <option value="ra">ra (x1)</option>
+                                <option value="sp">sp (x2)</option>
+                                <option value="gp">gp (x3)</option>
+                                <option value="tp">tp (x4)</option>
+                                <option value="t0">t0 (x5)</option>
+                                <option value="t1">t1 (x6)</option>
+                                <option value="t2">t2 (x7)</option>
+                                <option value="fp">fp (x8)</option>
+                                <option value="s0">s0 (x8)</option>
+                                <option value="s1">s1 (x9)</option>
+                                <option value="a0">a0 (x10)</option>
+                                <option value="a1">a1 (x11)</option>
+                                <option value="a2">a2 (x12)</option>
+                                <option value="a3">a3 (x13)</option>
+                                <option value="a4">a4 (x14)</option>
+                                <option value="a5">a5 (x15)</option>
+                                <option value="a6">a6 (x16)</option>
+                                <option value="a7">a7 (x17)</option>
+                                <option value="s2">s2 (x18)</option>
+                                <option value="s3">s3 (x19)</option>
+                                <option value="s4">s4 (x20)</option>
+                                <option value="s5">s5 (x21)</option>
+                                <option value="s6">s6 (x22)</option>
+                                <option value="s7">s7 (x23)</option>
+                                <option value="s8">s8 (x24)</option>
+                                <option value="s9">s9 (x25)</option>
+                                <option value="s10">s10 (x26)</option>
+                                <option value="s11">s11 (x27)</option>
+                                <option value="t3">t3 (x28)</option>
+                                <option value="t4">t4 (x29)</option>
+                                <option value="t5">t5 (x30)</option>
+                                <option selected value="t6">t6 (x31)</option>
+                            </optgroup>
+                        </select></label>
+                </p>
+            </div>
+            <div class="output">
+                <label for="output">Output</label>
+                <button id="copy-button">Copy</button>
+                <textarea id="output" disabled></textarea>
+            </div>
+        </div>
+    </main>
+    <aside>
+        <p>Only 32-bit registers and values are supported.</p>
+    </aside>
+</body>
+
+</html>

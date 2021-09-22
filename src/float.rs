@@ -17,25 +17,36 @@ fn float_registers_sorted() {
 
 /// Generate instructions to load a single-precision floating-point number into `reg`.
 ///
-/// `temp_reg` should be an integer register and will be clobbered by the operation.
+/// `temp_reg` should be an integer register and may be clobbered by the operation.
 pub fn assemble_float_immediate(
     value: f32,
     reg: &str,
     temp_reg: &str,
     mut out: impl Write,
 ) -> io::Result<()> {
-    write!(
-        &mut out,
-        r"	# li {}, {} (uses {})
+    if value == 0.0 {
+        // 0.0 is represented by all zeroes, so we can pull directly from the zero register
+        write!(
+            &mut out,
+            r"	# li {reg}, 0
+	fmv.s.x {reg}, zero
 ",
-        reg, value, temp_reg
-    )?;
-    assemble_immediate(u32::from_ne_bytes(value.to_ne_bytes()), temp_reg, &mut out)?;
-    write!(
-        &mut out,
-        r"	fmv.w.x {}, {}
+            reg = reg
+        )?;
+    } else {
+        write!(
+            &mut out,
+            r"	# li {}, {} (uses {})
 ",
-        temp_reg, reg
-    )?;
+            reg, value, temp_reg
+        )?;
+        assemble_immediate(u32::from_ne_bytes(value.to_ne_bytes()), temp_reg, &mut out)?;
+        write!(
+            &mut out,
+            r"	fmv.s.x {}, {}
+",
+            reg, temp_reg
+        )?;
+    }
     Ok(())
 }

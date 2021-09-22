@@ -1,0 +1,49 @@
+html {
+    --orange: #f5b21b;
+    --blue: #283272;
+}
+
+header {
+    color: var(--blue);
+}
+
+h1 {
+    margin-bottom: 0.25em;
+}
+
+nav a {
+    display: inline-block;
+    padding-left: 0.25em;
+}
+
+main {
+    margin: 0.5em;
+    border: 3px solid var(--orange);
+    border-radius: 15px;
+    padding: 5px;
+    max-width: 900px;
+}
+
+.app {
+    display: flex;
+    gap: 1px;
+    background-color: var(--orange);
+}
+
+@media screen and (max-width: 700px) {
+    .app {
+        flex-direction: column;
+    }
+}
+
+.app div {
+    background-color: white;
+    padding: 0.5em;
+    flex-grow: 1;
+}
+
+textarea {
+    width: 90%;
+    height: 8em;
+    display: block;
+}
