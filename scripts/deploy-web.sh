@@ -12,4 +12,4 @@ git rm -rf *
 cp -R $TEMPDIR/public/* .
 git add .
 git commit -m "Dump"
-git push
+git push -u origin gh-pages
